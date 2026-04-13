@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Controle de Férias</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🏖️ Dashboard de Controle de Férias</h1>
+            <p class="subtitle">Gestão de férias dos funcionários</p>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon total">👥</div>
+                <div class="stat-info">
+                    <h3 id="totalFuncionarios">0</h3>
+                    <p>Total de Funcionários</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon ferias">☀️</div>
+                <div class="stat-info">
+                    <h3 id="emFerias">0</h3>
+                    <p>Em Férias</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon programadas">📅</div>
+                <div class="stat-info">
+                    <h3 id="programadas">0</h3>
+                    <p>Férias Programadas</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon disponiveis">✅</div>
+                <div class="stat-info">
+                    <h3 id="disponiveis">0</h3>
+                    <p>Disponíveis para Férias</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Form Section -->
+            <div class="form-section">
+                <h2>➕ Adicionar/Editar Funcionário</h2>
+                <form id="funcionarioForm">
+                    <input type="hidden" id="funcionarioId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nome">Nome do Funcionário</label>
+                            <input type="text" id="nome" required placeholder="Ex: João Silva">
+                        </div>
+                        <div class="form-group">
+                            <label for="departamento">Departamento</label>
+                            <select id="departamento" required>
+                                <option value="">Selecione...</option>
+                                <option value="RH">Recursos Humanos</option>
+                                <option value="TI">Tecnologia</option>
+                                <option value="Financeiro">Financeiro</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Operações">Operações</option>
+                                <option value="Vendas">Vendas</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="diasDireito">Dias de Direito (anual)</label>
+                            <input type="number" id="diasDireito" min="0" max="30" value="30" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="diasUsados">Dias Já Usados</label>
+                            <input type="number" id="diasUsados" min="0" value="0" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dataInicio">Data de Início das Férias</label>
+                            <input type="date" id="dataInicio">
+                        </div>
+                        <div class="form-group">
+                            <label for="dataFim">Data de Fim das Férias</label>
+                            <input type="date" id="dataFim">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select id="status" required>
+                                <option value="disponivel">Disponível</option>
+                                <option value="programado">Programado</option>
+                                <option value="em_ferias">Em Férias</option>
+                                <option value="concluido">Concluído</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="observacoes">Observações</label>
+                            <input type="text" id="observacoes" placeholder="Opcional">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Salvar Funcionário</button>
+                        <button type="button" class="btn-secondary" onclick="limparFormulario()">Limpar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="filters-section">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔍 Buscar por nome ou departamento...">
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="todos">Todos</button>
+                    <button class="filter-btn" data-filter="disponivel">Disponíveis</button>
+                    <button class="filter-btn" data-filter="programado">Programados</button>
+                    <button class="filter-btn" data-filter="em_ferias">Em Férias</button>
+                    <button class="filter-btn" data-filter="concluido">Concluídos</button>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="table-section">
+                <h2>📋 Lista de Funcionários</h2>
+                <div class="table-responsive">
+                    <table id="funcionariosTable">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Departamento</th>
+                                <th>Dias Direito</th>
+                                <th>Dias Usados</th>
+                                <th>Saldo</th>
+                                <th>Período de Férias</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="funcionariosBody">
+                            <!-- Dados serão inseridos via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Sistema de Controle de Férias - Todos os direitos reservados</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
